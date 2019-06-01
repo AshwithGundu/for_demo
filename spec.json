@@ -1,0 +1,215 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Deep Dive API",
+    "version": "1.0"
+  },
+  "host": "ash-dev.apigee.net",
+  "basePath": "/todo-manage/v1",
+  "schemes":["https","http"],
+  "paths": {
+    "/employees/{emp-id}": {
+      "get": {
+        "operationId": "emp-Contract",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "emp-id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true,
+            "description": "The OAUTH access token of the end user of the application   calling the API ex: 00DR0000001uwzf!ARIAQD9p7FtdFQGaa_coTKt3Dj4ohAz"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/output"
+            }
+          },
+          "300": {
+            "description": "Each API should define its own 3xx responses."
+          },
+          "400": {
+            "$ref": "#/responses/400 - Bad Request"
+          },
+          "401": {
+            "$ref": "#/responses/401 - Unauthorized"
+          },
+          "403": {
+            "$ref": "#/responses/403 - Forbidden"
+          },
+          "404": {
+            "$ref": "#/responses/404 - Not Found"
+          },
+          "405": {
+            "$ref": "#/responses/405 - Method Not Allowed"
+          },
+          "406": {
+            "$ref": "#/responses/406 - Not Acceptable"
+          },
+          "408": {
+            "$ref": "#/responses/408 - Request Timeout"
+          },
+          "409": {
+            "$ref": "#/responses/409 - Conflict"
+          },
+          "429": {
+            "$ref": "#/responses/429 - Too Many Requests"
+          },
+          "500": {
+            "$ref": "#/responses/500 - Internal Server Error"
+          },
+          "501": {
+            "$ref": "#/responses/501 - Not Implemented"
+          },
+          "503": {
+            "$ref": "#/responses/503 - Service Unavailable"
+          }
+        },
+        "description": "this is the spec details for the website",
+        "security": [
+          {
+            "new-auth": []
+          }
+        ]
+      }
+    }
+  },
+  "responses": {
+    "403 - Forbidden": {
+      "description": "Your access rights are insufficient to perform this request.",
+      "schema": {
+        "$ref": "#/definitions/errorResponse"
+      }
+    },
+    "400 - Bad Request": {
+      "description": "Request is invalid and cannot be processed.",
+      "schema": {
+        "$ref": "#/definitions/errorResponse"
+      }
+    },
+    "401 - Unauthorized": {
+      "description": "You are not authorized to perform this request or your identity is not yet established.",
+      "schema": {
+        "$ref": "#/definitions/errorResponse"
+      }
+    },
+    "404 - Not Found": {
+      "description": "Requested resource does not exist.",
+      "schema": {
+        "$ref": "#/definitions/errorResponse"
+      }
+    },
+    "405 - Method Not Allowed": {
+      "description": "Requested operation is not supported for this resource or you have insufficient rights.",
+      "schema": {
+        "$ref": "#/definitions/errorResponse"
+      }
+    },
+    "406 - Not Acceptable": {
+      "description": "No match for a requested Accept-* header value.",
+      "schema": {
+        "$ref": "#/definitions/errorResponse"
+      }
+    },
+    "408 - Request Timeout": {
+      "description": "Request was not received within the service timeout period.",
+      "schema": {
+        "$ref": "#/definitions/errorResponse"
+      }
+    },
+    "409 - Conflict": {
+      "description": "Requested operation could not be completed due conflict with the current resource state.",
+      "schema": {
+        "$ref": "#/definitions/errorResponse"
+      }
+    },
+    "429 - Too Many Requests": {
+      "description": "Number of requests has exceeded your configured limit.",
+      "schema": {
+        "$ref": "#/definitions/errorResponse"
+      }
+    },
+    "500 - Internal Server Error": {
+      "description": "Requested operation encountered an unexpected server error.",
+      "schema": {
+        "$ref": "#/definitions/errorResponse"
+      }
+    },
+    "501 - Not Implemented": {
+      "description": "Requested operation is not implemented by the server.",
+      "schema": {
+        "$ref": "#/definitions/errorResponse"
+      }
+    },
+    "503 - Service Unavailable": {
+      "description": "Service is temporarily unavailable.",
+      "schema": {
+        "$ref": "#/definitions/errorResponse"
+      }
+    }
+  },
+  "definitions": {
+    "output": {
+      "type": "object",
+      "properties": {
+        "Pin": {
+          "type": "string",
+          "description": ""
+        },
+        "EmpId": {
+          "type": "string"
+        },
+        "EmpName": {
+          "type": "string"
+        }
+      }
+    },
+    "errorResponse": {
+      "type": "object",
+      "title": "Error Response",
+      "description": "Error response returned to the consumer when an HTTP error status has occurred.",
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "MISSING_FIELD or 12345",
+          "description": "Server-defined error code which may be numeric or a string."
+        },
+        "userMessage": {
+          "type": "string",
+          "example": "Required field is missing: productSku",
+          "description": "Human-readable description of the error with hints about how to fix it."
+        },
+        "developerMessage": {
+          "type": "string",
+          "description": "Optional human-readable description of the error, meaningful to a developer.",
+          "example": "Product master API ParseException: required tag <sku> expected"
+        },
+        "moreInfo": {
+          "type": "string",
+          "description": "Optional link to error documentation, which has more information about the error.",
+          "format": "uri",
+          "example": "https://$${.env.portal}/api-repository/product-master/v1/error/12345"
+        }
+      },
+      "required": [
+        "code",
+        "userMessage"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "new-auth": {
+      "type": "oauth2",
+      "flow": "implicit",
+      "authorizationUrl": "https://accounts.google.com/o/oauth2/auth"
+    }
+  }
+}
